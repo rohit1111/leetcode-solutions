@@ -27,65 +27,104 @@ public:
     //     }
     //     return true;
     // }
+
+    // // TC: O(n), SC: O(1)
+    // bool isPalindrome(ListNode* head) {
+    //     //FInd the middle of the linked list
+    //     ListNode *mid = head;
+    //     ListNode *fast = head;
+
+    //     while(fast!= NULL && fast->next!=NULL){
+    //         //mid = mid->next;  
+    //         fast = fast->next->next;
+    //         if(fast!=NULL){      //if fast is NULL means list is even 
+    //                             //then dont move mid, 
+    //                             //else move mid for last element
+    //             mid = mid->next;
+    //         }    
+    //     }
+    //     bool odd = false;
+    //     if(fast!=NULL){
+    //         // cout<<"ODD"<<endl;
+    //         odd = true;
+    //     }
+
+    //     //create 2 linked list.
+    //     ListNode *secondList = mid->next;
+    //     mid->next = NULL;
+        
+        
+    //     //reverse second list
+    //     ListNode* prev = NULL;
+    //     while(secondList!=NULL){
+    //         ListNode *next = secondList->next;
+    //         // if(next!=NULL){
+    //         //    cout<<"Next Val"<<next->val<<endl;
+    //         // }
+    //         secondList->next = prev;
+    //         prev = secondList;
+    //         secondList = next;
+    //         cout<<prev->val<<"-";
+    //     }
+    //     cout<<endl;
+    //     secondList = prev;
+    //     //Now compare two list are equal or not.
+    //     ListNode* firstList = head;
+    //     while(firstList!=NULL && secondList !=NULL){
+    //         // cout<<firstList->val<<" "<<secondList->val<<endl;
+    //         if(firstList->val != secondList->val){
+    //             return false;
+    //         }
+    //         firstList = firstList->next;
+    //         secondList = secondList->next;
+    //     }
+    //     while(firstList!=NULL){
+    //         if(odd == true){
+    //             return true;
+    //         }
+    //         // cout<<firstList->val<<endl;
+    //         return false;
+    //     }
+    //     while(secondList!=NULL){
+    //         return false;
+    //     }
+    //     return true;
+    // }
     bool isPalindrome(ListNode* head) {
+        if(!head || !head->next){
+            return true;
+        }
         //FInd the middle of the linked list
         ListNode *mid = head;
         ListNode *fast = head;
 
-        while(fast!= NULL && fast->next!=NULL){
-            //mid = mid->next;  
+        while(fast->next!= NULL && fast->next->next!=NULL){
             fast = fast->next->next;
-            if(fast!=NULL){      //if fast is NULL means list is even 
-                                //then dont move mid, 
-                                //else move mid for last element
-                mid = mid->next;
-            }    
+            mid = mid->next;
         }
-        bool odd = false;
-        if(fast!=NULL){
-            // cout<<"ODD"<<endl;
-            odd = true;
-        }
-
+        
         //create 2 linked list.
         ListNode *secondList = mid->next;
         mid->next = NULL;
-        
-        
+                
         //reverse second list
         ListNode* prev = NULL;
         while(secondList!=NULL){
             ListNode *next = secondList->next;
-            // if(next!=NULL){
-            //    cout<<"Next Val"<<next->val<<endl;
-            // }
             secondList->next = prev;
             prev = secondList;
             secondList = next;
-            cout<<prev->val<<"-";
         }
-        cout<<endl;
         secondList = prev;
         //Now compare two list are equal or not.
         ListNode* firstList = head;
-        while(firstList!=NULL && secondList !=NULL){
-            // cout<<firstList->val<<" "<<secondList->val<<endl;
+        while(secondList !=NULL){            
             if(firstList->val != secondList->val){
                 return false;
             }
             firstList = firstList->next;
             secondList = secondList->next;
         }
-        while(firstList!=NULL){
-            if(odd == true){
-                return true;
-            }
-            // cout<<firstList->val<<endl;
-            return false;
-        }
-        while(secondList!=NULL){
-            return false;
-        }
         return true;
-    }
+    }    
 };

@@ -74,33 +74,68 @@ public:
     //     return false;
     // }
 
-    bool dfs(unordered_map<int,vector<int>>& graph, int src, int dst, vector<bool>& vis, int n){
-        if(src == dst) return true;
-        //visit the all the neighbours of source
-        vis[src] = true;
-        for(auto neg:graph[src]){
-            if(!vis[neg]){
-                if(dfs(graph,neg,dst,vis,n)){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    //Solve using DFS and Adjacency List
+    // bool dfs(unordered_map<int,vector<int>>& graph, int src, int dst, vector<bool>& vis, int n){
+    //     if(src == dst) return true;
+    //     //visit the all the neighbours of source
+    //     vis[src] = true;
+    //     for(auto neg:graph[src]){
+    //         if(!vis[neg]){
+    //             if(dfs(graph,neg,dst,vis,n)){
+    //                 return true;
+    //             }
+    //         }
+    //     }
+    //     return false;
+    // }
+    // //Solve using DFS and Adjacency List
+    // bool validPath(int n, vector<vector<int>>& edges, int source, int destination)
+    // {
+    //     //form a graph
+    //     unordered_map<int,vector<int>> graph;
+    //     for(auto edge:edges){
+    //         int u = edge[0], v = edge[1];
+    //         graph[u].push_back(v);
+    //         graph[v].push_back(u); // as graph bi-directional
+    //     }
+
+    //     //visited array
+    //     vector<bool> vis(n, false);
+
+    //     return dfs(graph,source,destination,vis,n);
+    // }
+
+
+    //Solve using BFS and Adjacency List
     bool validPath(int n, vector<vector<int>>& edges, int source, int destination)
     {
-        //form a graph
         unordered_map<int,vector<int>> graph;
         for(auto edge:edges){
             int u = edge[0], v = edge[1];
             graph[u].push_back(v);
-            graph[v].push_back(u); // as graph bi-directional
+            graph[v].push_back(u); // as graph bi-directional            
         }
 
         //visited array
-        vector<bool> vis(n, false);
+        vector<bool> vis(n,false);
+        vis[source] = true;
 
-        return dfs(graph,source,destination,vis,n);
-    }
+        //queus for neighbours
+        queue<int> q;
+        q.push(source);
+
+        while(!q.empty()){
+            int curr = q.front();
+            q.pop();
+
+            if(curr == destination) return true;
+
+            for(auto neg:graph[curr]){
+                if(!vis[neg]){
+                    vis[neg] = true;
+                    q.push(neg);
+                }
+            }            
+        }
+        return false;
+    }    
 };
